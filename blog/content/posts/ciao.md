@@ -15,6 +15,6 @@ I believe it translates to "Hello/Goodbye child" and is a phrase which my Russia
 growing up. However after some non-exhaustive Google-ing, it turns out that the phrase may be more commonly
 used with the "Hello, baby" connotation. It's funny how things don't translate; but I digress.
 
-While this public-facing portal of opinions holds far less value than I anticipate
-my "baby" would, I do hope to to treat it in a somewhat professional manner, and one which I can
+While I do not anticipate that this public-facing portal of rambling will provide much value to others,
+I do hope to to treat it in a somewhat professional manner, and one which I can
 use to improve my writing and delivery of ideas. I guess time will tell. Perge!
