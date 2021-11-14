@@ -44,6 +44,9 @@ weight = 3
   show_updated = false # default
   showReadTime = false # default
 
+  # Enable latex with mathjax
+  mathjax = true
+
   # the value of name should be an valid font awesome icon name (brands type)
   # https://fontawesome.com/icons?d=gallery&s=brands
   [[params.social]]
