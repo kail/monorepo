@@ -112,7 +112,7 @@ module "cf" {
   alias = var.blog_domain
   acm_certificate_arn = aws_acm_certificate.blog.arn
   logging_bucket = aws_s3_bucket.log_bucket.bucket_domain_name
-  logging_prefix = "${var.blog_domain}/cf/"
+  logging_prefix = "${var.blog_domain}-cloudfront/"
 }
 
 module "www_cf" {
@@ -122,5 +122,5 @@ module "www_cf" {
   alias = "www.${var.blog_domain}"
   acm_certificate_arn = aws_acm_certificate.blog.arn
   logging_bucket = aws_s3_bucket.log_bucket.bucket_domain_name
-  logging_prefix = "${var.blog_domain}/cf/"
+  logging_prefix = "${var.blog_domain}-cloudfront/"
 }
