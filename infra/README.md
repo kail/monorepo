@@ -37,7 +37,6 @@ terraform destroy
 ```
 
 ## Troubleshooting
-
 Invalid Token Issues? Try running these:
 ```
 export AWS_PROFILE="skobovm"
@@ -46,3 +45,7 @@ unset AWS_SESSION_TOKEN
 # Validate that this works
 aws sts get-caller-identity --region us-west-2
 ```
+
+## Resources
+** https://nicholasarmstrong.com/2020/05/https-static-site-hugo-terraform/
+** https://blog.gruntwork.io/how-to-manage-terraform-state-28f5697e68fa
