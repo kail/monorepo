@@ -39,14 +39,6 @@ module "blog" {
   source = "./blog"
 }
 
-#
-# Main server
-#
-resource "aws_instance" "monoserver" {
-  ami           = "ami-0af1d9a956bf064e4"
-  instance_type = "m6i.xlarge"
-
-  tags = {
-    Name = var.monoserver_instance_name
-  }
+module "server" {
+  source = "./server"
 }
