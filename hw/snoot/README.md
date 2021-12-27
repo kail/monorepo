@@ -1,0 +1,2 @@
+# Snoot - Dog Activity Monitor
+
