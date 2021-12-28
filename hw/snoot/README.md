@@ -6,9 +6,9 @@
 1. Fetch all submodules, if that hasn't been done: `git submodule update --init --recursive`
 
 ## Organization
- * *app*: Contains application code
- * *board*: Contains board-specific code for different board revisions (including linker and startup files)
- * *vendor/fw/STM32CubeL1*: Submodule containing STM32 HAL
+ * **app**: Contains application code
+ * **board**: Contains board-specific code for different board revisions (including linker and startup files)
+ * **vendor/fw/STM32CubeL1**: Submodule containing STM32 HAL
 
 ## Building and running
 1. Build the binary: `make`
