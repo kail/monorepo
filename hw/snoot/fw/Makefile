@@ -61,6 +61,7 @@ endif
 
 # Use newlib-nano C libraries
 # Use -specs=nosys.specs if using system libs, no system stubs
+# Use -nostdlib to opt out of using for bare-metal code
 LDFLAGS = -specs=nano.specs
 # Remove any unused sections
 LDFLAGS += -Wl,--gc-sections
@@ -84,7 +85,7 @@ STM32L1_CMSIS=$(STM32L1_DIR)/Drivers/CMSIS
 CMSIS_INC = $(STM32L1_CMSIS)/Include
 STM32L1_INC = $(STM32L1_HAL)/Inc/
 STM32L1_INC += $(STM32L1_HAL)/Inc/Legacy/
-STM32L1_SRC = $(wildcard $(STM32L1_SRCDIR)/*.c)
+STM32L1_SRC = $(filter-out %_template.c, $(wildcard $(STM32L1_SRCDIR)/*.c))
 STM32L1_OBJ = $(patsubst $(STM32L1_SRCDIR)/%.c,$(OBJ_DIR)/%.o,$(STM32L1_SRC))
 
 #
