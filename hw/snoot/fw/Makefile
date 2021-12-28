@@ -18,6 +18,7 @@ OBJ_DIR = $(BUILD_DIR)/objs
 APP_DIR=./app
 BOARD_DIR=./board/$(VERSION)
 VENDOR_FW=../../../vendor/fw
+COMMON_DIR=../../common
 
 #
 # Toolchain
@@ -100,6 +101,7 @@ ifeq ($(VERSION), v1)
 	CMSIS_INC += $(STM32L1_CMSIS)/Device/ST/STM32L1xx/Include
 	LDFLAGS += -T$(BOARD_DIR)/STM32L151C8TxA_FLASH.ld
 	STARTUP = $(BOARD_DIR)/startup_stm32l151xba.s
+	OCD_CONF = $(BOARD_DIR)/openocd.cfg
 endif
 
 #
@@ -135,7 +137,11 @@ CFLAGS += $(MCU) $(C_DEFS) $(C_INC) $(OPT)
 #
 # Build Targets
 #
-all: $(BUILD_DIR)/$(PROJECT).elf
+.PHONY: all
+all: $(BUILD_DIR)/$(PROJECT).bin
+
+debug: $(BUILD_DIR)/debug.sh
+	$(BUILD_DIR)/debug.sh
 
 dirs: $(BUILD_DIR) $(OBJ_DIR)
 $(BUILD_DIR) $(OBJ_DIR):
@@ -153,6 +159,26 @@ $(OBJ_DIR)/%.o : %.s | dirs
 $(BUILD_DIR)/$(PROJECT).elf: $(OBJS)
 	@echo "Linking $@"
 	$(GCC) $(CFLAGS) $^ $(LDFLAGS) -o $@
+
+$(BUILD_DIR)/$(PROJECT).bin: $(BUILD_DIR)/$(PROJECT).elf
+	$(OBJCOPY) $< $@ -O binary
+	$(SZ) $<
+
+#
+# Debug and Flash Targets
+#
+$(BUILD_DIR)/openocd.sh: $(BUILD_DIR)/$(PROJECT).elf
+	@echo "Creating OpenOCD script"
+	@echo > $@ trap \'\' INT
+	@echo >> $@ $(OCD) -c \"gdb_port pipe\" -f \"$(abspath $(OCD_CONF))\" -l /dev/null
+	@chmod +x $@
+
+$(BUILD_DIR)/debug.sh: $(BUILD_DIR)/openocd.sh
+	@echo "Creating debug script"
+	@echo > $@ $(GDB) $(abspath $(BUILD_DIR)/$(PROJECT).elf) \\
+	@echo >> $@ -ex \"target extended-remote \| $(abspath $<)\" \\
+	@echo >> $@ -x $(abspath $(COMMON_DIR)/gdbinit)
+	@chmod +x $@
 
 .PHONY: clean
 clean:
