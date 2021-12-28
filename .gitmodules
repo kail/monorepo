@@ -1,3 +1,6 @@
 [submodule "blog/themes/cactus"]
 	path = blog/themes/cactus
 	url = git@github.com:kail/hugo-theme-cactus.git
+[submodule "vendor/fw/STM32CubeL1"]
+	path = vendor/fw/STM32CubeL1
+	url = git@github.com:STMicroelectronics/STM32CubeL1.git

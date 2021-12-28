@@ -1,0 +1,6 @@
+set print symbol-loading off
+set mem inaccessible-by-default off
+set print pretty
+
+monitor reset halt
+load
