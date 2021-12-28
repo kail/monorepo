@@ -138,13 +138,15 @@ CFLAGS += $(MCU) $(C_DEFS) $(C_INC) $(OPT)
 #
 # Build Targets
 #
-.PHONY: all
+.PHONY: all clean debug dirs
+
 all: $(BUILD_DIR)/$(PROJECT).bin
 
 debug: $(BUILD_DIR)/debug.sh
 	$(BUILD_DIR)/debug.sh
 
 dirs: $(BUILD_DIR) $(OBJ_DIR)
+
 $(BUILD_DIR) $(OBJ_DIR):
 	@echo "Making output dir $@"
 	@mkdir -p $@
@@ -181,6 +183,5 @@ $(BUILD_DIR)/debug.sh: $(BUILD_DIR)/openocd.sh
 	@echo >> $@ -x $(abspath $(COMMON_DIR)/gdbinit)
 	@chmod +x $@
 
-.PHONY: clean
 clean:
 	rm -rf $(BUILD_DIR)/*
