@@ -13,3 +13,21 @@
 ## Building and running
 1. Build the binary: `make`
 1. Debug the application `make debug`
+
+## FW TODO List
+ - [ ] Add linter (clang?)
+ - [ ] Add printf lib
+ - [ ] Add UART console
+ - [ ] Add RTOS
+ - [ ] Implement RTC driver
+ - [ ] Implement ADC driver (internal ref)
+ - [ ] Implement IMU driver
+ - [ ] Implement ALS driver
+ - [ ] Implement temperature driver*
+ - [ ] Implement flash driver*
+ - [ ] Add storage mechanism/filesystem
+ - [ ] Implement main application
+ - [ ] Experiment with USB console
+ - [ ] Implement unit tests
+ - [ ] Bootloader (web usb?)
+_* may be broken on v1 board due to careless handling_

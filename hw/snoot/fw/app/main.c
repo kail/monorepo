@@ -4,11 +4,11 @@
 void blink() {
   static bool led_on_ = false;
   if (led_on_) {
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
-	} else {
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
-	}
-	led_on_ = !led_on_;
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
+  } else {
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
+  }
+  led_on_ = !led_on_;
 }
 
 int main() {
