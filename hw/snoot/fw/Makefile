@@ -1,7 +1,7 @@
 #
 # Project Name
 #
-PROJ = snoot
+PROJECT = snoot
 VERSION = v1
 
 #
@@ -13,8 +13,8 @@ OPT = -Og
 #
 # Project Paths
 #
-BIN_DIR=./bin
-OBJ_DIR = $(BIN_DIR)/objs
+BUILD_DIR=./bin
+OBJ_DIR = $(BUILD_DIR)/objs
 APP_DIR=./app
 BOARD_DIR=./board/$(VERSION)
 VENDOR_FW=../../../vendor/fw
@@ -25,10 +25,9 @@ VENDOR_FW=../../../vendor/fw
 
 # Must be installed and in PATH
 PREFIX = arm-none-eabi-
-AS = $(PREFIX)as
+AS = $(PREFIX)gcc -x assembler-with-cpp
 GCC = $(PREFIX)gcc
 GDB = $(PREFIX)gdb-py
-LD = $(PREFIX)gcc
 OBJCOPY = $(PREFIX)objcopy
 SZ = $(PREFIX)size
 
@@ -50,9 +49,13 @@ CFLAGS += -fdata-sections
 CFLAGS += -ffunction-sections
 # Colors are neat
 CFLAGS += -fdiagnostics-color=always
+# Use the C99 language standard
+CFLAGS += -std=c99
+# Assert that compilation targets a freestanding environment
+CFLAGS += -ffreestanding
 
 ifeq ($(DEBUG), 1)
-CFLAGS += -g -gdwarf-2
+CFLAGS += -g
 endif
 
 # Use newlib-nano C libraries
@@ -91,13 +94,19 @@ ifeq ($(VERSION), v1)
 	FPU =
 	FLOAT-ABI = -mfloat-abi=soft
 	MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
-	ST_C_DEFS = -DUSE_HAL_DRIVER -DSTM32L151xBA
+	ST_C_DEFS = USE_HAL_DRIVER STM32L151xBA
 	BOARD_INC = $(BOARD_DIR)
+	BOARD_SRC = $(wildcard $(BOARD_DIR)/*.c)
 	CMSIS_INC += $(STM32L1_CMSIS)/Device/ST/STM32L1xx/Include
+	LDFLAGS += -T$(BOARD_DIR)/STM32L151C8TxA_FLASH.ld
+	STARTUP = $(BOARD_DIR)/startup_stm32l151xba.s
 endif
 
-# Source search paths
-VPATH = ./app
+#
+# Source Search Paths
+#
+VPATH = $(APP_DIR)
+VPATH += $(BOARD_DIR)
 VPATH += $(STM32L1_SRCDIR)
 
 #
@@ -107,28 +116,44 @@ VPATH += $(STM32L1_SRCDIR)
 # TODO: Make separate makefiles per application
 APP_SRCS = $(wildcard $(APP_DIR)/*.c)
 APP_INC = $(APP_DIR)
+APP_DEFS = 
 
-SRCS = $(APP_SRCS) $(STM32L1_SRC)
+#
+# Final Command Flags
+#
+SRCS = $(APP_SRCS) $(BOARD_SRC) $(STM32L1_SRC)
 INC_DIRS = $(STM32L1_INC) $(CMSIS_INC) $(APP_INC) $(BOARD_INC)
-INC = $(INC_DIRS:%=-I%)
+DEFS = $(APP_DEFS) $(ST_C_DEFS)
+
+C_INC = $(foreach i,$(INC_DIRS),-I$(i))
+C_DEFS += $(foreach d,$(DEFS),-D$(d))
+
 OBJS = $(addprefix $(OBJ_DIR)/,$(notdir $(SRCS:.c=.o)))
-CFLAGS += $(MCU) $(ST_C_DEFS) $(INC) $(OPT)
+OBJS += $(addprefix $(OBJ_DIR)/,$(notdir $(STARTUP:.s=.o)))
+CFLAGS += $(MCU) $(C_DEFS) $(C_INC) $(OPT)
 
-all: $(OBJS)
+#
+# Build Targets
+#
+all: $(BUILD_DIR)/$(PROJECT).elf
 
-dirs: $(BIN_DIR) $(OBJ_DIR)
-$(BIN_DIR) $(OBJ_DIR):
-	@echo "[MKDIR]   $@"
+dirs: $(BUILD_DIR) $(OBJ_DIR)
+$(BUILD_DIR) $(OBJ_DIR):
+	@echo "Making output dir $@"
 	@mkdir -p $@
 
 $(OBJ_DIR)/%.o : %.c | dirs
-	@echo "[CC]      $(notdir $<)"
-	$(GCC) $(CFLAGS) -c -o $@ $< -MMD
+	@echo "Compiling $(notdir $<)"
+	$(GCC) $(CFLAGS) -c -o $@ $<
 
-# STM32 HAL
-# $(STM32L1_OBJ): $(OBJ_DIR)/%.o : $(STM32L1_SRCDIR)/%.c $(STM32L1_INC)
-#	$(CC) -c $(CFLAGS) $< -o $@
+$(OBJ_DIR)/%.o : %.s | dirs
+	@echo "Assembling $(notdir $<)"
+	$(AS) $(CFLAGS) -c -o $@ $<
+
+$(BUILD_DIR)/$(PROJECT).elf: $(OBJS)
+	@echo "Linking $@"
+	$(GCC) $(CFLAGS) $^ $(LDFLAGS) -o $@
 
 .PHONY: clean
 clean:
-	rm -f $(BIN)/*
+	rm -rf $(BUILD_DIR)/*
