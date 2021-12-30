@@ -106,11 +106,22 @@ ifeq ($(VERSION), v1)
 endif
 
 #
+# Libraries
+#
+PRINTF_DIR=$(VENDOR_FW)/printf/src
+
+LIB_SRC = $(wildcard $(PRINTF_DIR)/printf/*.c)
+LIB_INC = $(PRINTF_DIR)
+LIB_DEFS = PRINTF_INCLUDE_CONFIG_H
+
+#
 # Source Search Paths
 #
 VPATH = $(APP_DIR)
+VPATH += $(APP_DIR)/port
 VPATH += $(BOARD_DIR)
 VPATH += $(STM32L1_SRCDIR)
+VPATH += $(PRINTF_DIR)/printf
 
 #
 # Application
@@ -118,15 +129,16 @@ VPATH += $(STM32L1_SRCDIR)
 
 # TODO: Make separate makefiles per application
 APP_SRCS = $(wildcard $(APP_DIR)/*.c)
-APP_INC = $(APP_DIR)
+APP_SRCS += $(wildcard $(APP_DIR)/port/*.c)
+APP_INC = $(APP_DIR) $(APP_DIR)/port
 APP_DEFS = 
 
 #
 # Final Command Flags
 #
-SRCS = $(APP_SRCS) $(BOARD_SRC) $(STM32L1_SRC)
-INC_DIRS = $(STM32L1_INC) $(CMSIS_INC) $(APP_INC) $(BOARD_INC)
-DEFS = $(APP_DEFS) $(ST_C_DEFS)
+SRCS = $(APP_SRCS) $(BOARD_SRC) $(STM32L1_SRC) $(LIB_SRC)
+INC_DIRS = $(STM32L1_INC) $(CMSIS_INC) $(APP_INC) $(BOARD_INC) $(LIB_INC)
+DEFS = $(APP_DEFS) $(ST_C_DEFS) $(LIB_DEFS)
 
 C_INC = $(foreach i,$(INC_DIRS),-I$(i))
 C_DEFS += $(foreach d,$(DEFS),-D$(d))
