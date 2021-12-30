@@ -16,7 +16,7 @@
 
 ## FW TODO List
  - [ ] Add linter (clang?)
- - [ ] Add printf lib
+ - [x] Add printf lib
  - [ ] Add UART console
  - [ ] Add RTOS
  - [ ] Implement RTC driver
