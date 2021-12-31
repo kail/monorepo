@@ -8,7 +8,7 @@ resource "aws_instance" "monoserver" {
   # Custom shitty AMI (ubuntu 20.04)
   # TODO: make new AMI
   # ami           = "ami-034608683a8bb1a93"
-  instance_type = "m6i.xlarge"
+  instance_type = "m6i.large"
 
   tags = {
     Name = var.monoserver_instance_name
