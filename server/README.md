@@ -7,6 +7,11 @@ aws configure --profile skobovm --region us-west-2
 aws ec2 describe-instances --filters Name=tag:Name,Values=MonorepoServer Name=instance-state-name,Values=running --query Reservations[*].Instances[*].PublicDnsName
 ```
 
+## Connect to the server
+```
+ssh -i ~/.ssh/aws_skobovm ubuntu@<address>
+```
+
 ## Server setup steps (for documentation/creating an image later)
 https://certbot.eff.org/instructions?ws=nginx&os=ubuntu-20
 ```
