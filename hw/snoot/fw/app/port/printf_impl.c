@@ -49,7 +49,6 @@ void putchar_(char character) {
       break;
     }
   }
-
   
   bool tx_in_progress = false;
 
