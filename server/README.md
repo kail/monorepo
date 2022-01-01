@@ -41,14 +41,38 @@ sudo bash -c 'echo OK > /var/www/html/index.html'
 # Follow instructionns for github access
 # https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 
-
 ```
-
 
 TODO: certbot autoupdates keys, but need to figure out how to do this automatically.
 Probably a script on startup to check for keys, generate new ones, etc.
 
-## Steps
+## Adding a new service
+1. Create new directory with a dockerfile
+1. Add service name to `nginx/default.conf`
+1. Add service config to `docker-compose.yml`
+1. Test locally `docker-compose up`
+
+
+## Troubleshooting
+
+### Github key not recognized
+https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+
+```
+ssh-add /home/ubuntu/.ssh/id_ed25519.github
+```
+
+### Docker compose permission error
+Add user to docker group
+
+```
+sudo gpasswd -a $USER docker
+newgrp docker
+```
+
+## Machine provisioning (manual for now)
+
+This should be done via packer or ami-builder! For now, however, it is manual.
 
 ### Install docker
 https://docs.docker.com/engine/install/ubuntu/
@@ -88,5 +112,9 @@ sudo apt-get install -y nodejs
      sudo apt-get update && sudo apt-get install yarn
 ```
 
+### Docker compose
+```
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
-
+sudo chmod +x /usr/local/bin/docker-compose
+```
