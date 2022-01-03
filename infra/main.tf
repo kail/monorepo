@@ -42,3 +42,7 @@ module "blog" {
 module "server" {
   source = "./server"
 }
+
+module "secrets" {
+  source = "./secrets"
+}

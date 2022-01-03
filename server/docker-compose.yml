@@ -8,7 +8,7 @@ services:
     volumes:
       - ./api_py:/code
       # TODO: mount this in docker desktop
-      # - /Users/mskobov/log/monoserver/api_py:/var/log/service
+      #- /Users/mskobov/log/monoserver/api_py:/var/log/service
       - /var/log/monoserver/api_py:/var/log/service
   client:
     stdin_open: true
