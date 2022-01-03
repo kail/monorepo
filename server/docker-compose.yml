@@ -1,0 +1,31 @@
+version: '3'
+services:
+  api_py:
+    stdin_open: true
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./api_py
+    volumes:
+      - ./api_py:/code
+      # TODO: mount this in docker desktop
+      #- /Users/mskobov/log/monoserver/api_py:/var/log/service
+      - /var/log/monoserver/api_py:/var/log/service
+  client:
+    stdin_open: true
+    restart: unless-stopped
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./client
+    volumes:
+      - /code/node_modules
+      - ./client:/code
+  nginx:
+    depends_on:
+      - api_py
+      - client
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - '9901:80'
