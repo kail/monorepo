@@ -22,6 +22,9 @@ resource "aws_instance" "monoserver" {
     aws_security_group.monoserver-sg.id
   ]
 
+  # IAM Role
+  iam_instance_profile = "${aws_iam_instance_profile.monoserver_profile.name}"
+
   # TODO: configure ebs_block_device?
 }
 
@@ -88,4 +91,10 @@ resource "aws_route53_record" "api" {
   type    = "A"
   ttl     = "300"
   records = [aws_eip.monoserver.public_ip]
+}
+
+# IAM Role
+resource "aws_iam_instance_profile" "monoserver_profile" {
+  name = "monoserver_profile"
+  role = "MonoserverEC2"
 }

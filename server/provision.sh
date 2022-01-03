@@ -8,8 +8,7 @@ set -x
 set -u
 
 # This script is used for provisioning the monoserver. In reality,
-# this should be done via packer or ami builder. This needs to be run
-# under sudo, since some commands require root privileges.
+# this should be done via packer or ami builder.
 
 USER=ubuntu
 HOME=/home/$USER
@@ -43,7 +42,7 @@ install() {
   sudo add-apt-repository -y ppa:deadsnakes/ppa
 
   # Add Docker packages
-  rm -f /usr/share/keyrings/docker-archive-keyring.gpg
+  sudo rm -f /usr/share/keyrings/docker-archive-keyring.gpg
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
   echo \
     "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
@@ -106,7 +105,10 @@ configure_repo() {
 
   # Start the agent and add the key
   eval "$(ssh-agent -s)"
+
+  # TODO: add this key to ubuntu user config
   ssh-add ${HOME}/.ssh/id_ed25519_github
+  ssh-keyscan github.com >> ${HOME}/.ssh/known_hosts
 
   # Clone the repo or get latest
   if [ -d ${HOME}/monorepo ]; then
@@ -132,10 +134,39 @@ configure_nginx() {
   sudo systemctl restart nginx
 }
 
-install
+install_service() {
+  # Stop the service if it exists
+  SERVICE_STATUS=$(sudo systemctl status monoserver.service 2>/dev/null)
+  if [[ -n "$SERVICE_STATUS" ]]; then
+    sudo systemctl stop monoserver.service
+  fi
 
-configure_aws
+  # Add the unit file to the systemd directory
+  sudo cp ${HOME}/monorepo/server/conf/monoservice.service /etc/systemd/system
+}
 
-configure_repo
+deploy() {
+  # Stash any local changes so they don't get wiped
+  git -C ${HOME}/monorepo stash
 
-configure_nginx
+  # Pull latest from master
+  git -C ${HOME}/monorepo pull origin master
+  git -C ${HOME}/monorepo checkout master
+
+  # Restart the service
+  sudo systemctl restart monoserver.service
+}
+
+if [[ $# -eq 0 ]]; then
+  install
+  configure_aws
+  configure_repo
+  configure_nginx
+  install_service
+  deploy
+elif [ "$1" = "deploy" ]; then
+  deploy
+else
+  echo Command not recognized
+  exit 1
+fi
