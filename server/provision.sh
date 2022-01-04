@@ -98,6 +98,7 @@ configure_repo() {
   mkdir -p ${HOME}/.ssh
 
   # Get the key from secrets manager
+  rm -f ${HOME}/.ssh/id_ed25519_github
   aws secretsmanager get-secret-value --secret-id monorepo/github/ssh | jq -r .SecretString > ${HOME}/.ssh/id_ed25519_github
 
   # Restrict to read-only
@@ -112,7 +113,7 @@ configure_repo() {
 
   # Clone the repo or get latest
   if [ -d ${HOME}/monorepo ]; then
-    git -C ${HOME}/monorepo pull origin master
+    echo Repo already cloned
   else
     git clone git@github.com:kail/monorepo.git ${HOME}/monorepo
   fi
@@ -124,11 +125,11 @@ configure_nginx() {
 
   # Install the monorepo conf
   sudo rm -f /etc/nginx/sites-available/monorepo.conf
-  cp ${HOME}/monorepo/server/conf/monorepo.conf /etc/nginx/sites-available
+  sudo cp ${HOME}/monorepo/server/conf/monorepo.conf /etc/nginx/sites-available
 
   # Create a symlink to the available site. This can point to the repo,
   # but having the extra step makes it harder to break.
-  ln -sf /etc/nginx/sites-available/monorepo.conf /etc/nginx/sites-enabled/monorepo.conf
+  sudo ln -sf /etc/nginx/sites-available/monorepo.conf /etc/nginx/sites-enabled/monorepo.conf
 
   # Restart nginx
   sudo systemctl restart nginx
