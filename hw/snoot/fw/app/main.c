@@ -19,6 +19,6 @@ int main() {
   // Spin
   while (1) {
     blink();
-    HAL_Delay(10);
+    HAL_Delay(1000);
   }
 }
