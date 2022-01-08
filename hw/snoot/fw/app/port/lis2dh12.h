@@ -24,6 +24,9 @@ bool lis2dh12_get_acceleration(stmdev_ctx_t* dev_ctx, lis2dh12_accel_t* accel);
 /* Get the current temperature data. Returns false if not available; true otherwise. */
 bool lis2dh12_get_temperature(stmdev_ctx_t* dev_ctx, float* temp_c);
 
+/* Configure the default interrupt settings for this application. */
+void lis2dh12_configure_interrupt(stmdev_ctx_t* dev_ctx);
+
 #ifdef __cplusplus
 }
 #endif

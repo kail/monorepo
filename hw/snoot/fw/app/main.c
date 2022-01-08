@@ -41,11 +41,16 @@ void print_accel_data() {
   if (lis2dh12_get_temperature(&lis2dh12_ctx_, &temperature_degC)) {
     printf("Temperature [degC]:%6.2f\r\n", temperature_degC);
   }
+
+  // Read IN1_SRC to clear the interrupt
+  lis2dh12_int1_src_t src;
+  lis2dh12_int1_gen_source_get(&lis2dh12_ctx_, &src);
 }
 
 int main() {
   hal_init();
   lis2dh12_init(&hi2c1, &lis2dh12_ctx_);
+  lis2dh12_configure_interrupt(&lis2dh12_ctx_);
 
   // Spin
   while (1) {

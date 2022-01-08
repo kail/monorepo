@@ -98,3 +98,37 @@ bool lis2dh12_get_temperature(stmdev_ctx_t* dev_ctx, float* temp_c) {
   *temp_c = lis2dh12_from_lsb_lp_to_celsius(raw_temperature);
   return true;
 }
+
+void lis2dh12_configure_interrupt(stmdev_ctx_t* dev_ctx) {
+  // See application note pg.25 for config.
+  lis2dh12_high_pass_mode_set(dev_ctx, LIS2DH12_NORMAL);
+
+  // Set the high pass cutoff frequency.
+  lis2dh12_high_pass_bandwidth_set(dev_ctx, LIS2DH12_MEDIUM);
+
+  // Interrupt activity 1 on INT1.
+  lis2dh12_ctrl_reg3_t int_conf = {0};
+  // TODO: Consider using zyxda?
+  int_conf.i1_ia1 = 1;
+  lis2dh12_pin_int1_config_set(dev_ctx, &int_conf);
+
+  // Interrupt latched -- clear by reading INT1_SRC.
+  lis2dh12_int1_pin_notification_mode_set(dev_ctx, LIS2DH12_INT1_LATCHED);
+
+  // Assuming 2g scale, LSb is 16mg.
+  lis2dh12_int1_gen_threshold_set(dev_ctx, 100);
+
+  // 1 LSb is 1/ODR (40ms @ 25Hz).
+  lis2dh12_int1_gen_duration_set(dev_ctx, 2);
+
+  // Dummy read of reference.
+  uint8_t ref;
+  lis2dh12_filter_reference_get(dev_ctx, &ref);
+
+  // Set the event to be OR xhigh, yhigh, zhigh
+  lis2dh12_int1_cfg_t int1_get_cfg = {0};
+  int1_get_cfg.xhie = 1;
+  int1_get_cfg.yhie = 1;
+  int1_get_cfg.zhie = 1;
+  lis2dh12_int1_gen_conf_set(dev_ctx, &int1_get_cfg);
+}
