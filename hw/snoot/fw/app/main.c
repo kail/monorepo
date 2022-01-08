@@ -1,5 +1,6 @@
 #include "hal_config.h"
 #include <stdbool.h>
+#include <stdio.h>
 
 void blink() {
   static bool led_on_ = false;
@@ -9,6 +10,7 @@ void blink() {
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
   }
   led_on_ = !led_on_;
+  printf("LED: %d\r\n", led_on_);
 }
 
 int main() {
