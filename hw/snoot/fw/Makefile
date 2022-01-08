@@ -106,22 +106,26 @@ ifeq ($(VERSION), v1)
 endif
 
 #
-# Libraries
-#
-PRINTF_DIR=$(VENDOR_FW)/printf/src
-
-LIB_SRC = $(wildcard $(PRINTF_DIR)/printf/*.c)
-LIB_INC = $(PRINTF_DIR)
-LIB_DEFS = PRINTF_INCLUDE_CONFIG_H
-
-#
 # Source Search Paths
 #
 VPATH = $(APP_DIR)
 VPATH += $(APP_DIR)/port
 VPATH += $(BOARD_DIR)
 VPATH += $(STM32L1_SRCDIR)
+
+#
+# Libraries
+#
+PRINTF_DIR=$(VENDOR_FW)/printf/src
+LIB_SRC = $(wildcard $(PRINTF_DIR)/printf/*.c)
+LIB_INC = $(PRINTF_DIR)
+LIB_DEFS = PRINTF_INCLUDE_CONFIG_H
 VPATH += $(PRINTF_DIR)/printf
+
+LIS2DH12_DIR=$(VENDOR_FW)/lis2dh12
+LIB_SRC += $(wildcard $(LIS2DH12_DIR)/*.c)
+LIB_INC += $(LIS2DH12_DIR)
+VPATH += $(LIS2DH12_DIR)
 
 #
 # Application
