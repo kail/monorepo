@@ -50,7 +50,9 @@ void print_accel_data() {
 int main() {
   hal_init();
   lis2dh12_init(&hi2c1, &lis2dh12_ctx_);
-  lis2dh12_configure_interrupt(&lis2dh12_ctx_);
+  if (!lis2dh12_configure_interrupt(&lis2dh12_ctx_)) {
+    printf("Failed to configure lis2dh12 interrupts");
+  }
 
   // Spin
   while (1) {

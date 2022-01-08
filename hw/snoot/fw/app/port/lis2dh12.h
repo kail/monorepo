@@ -25,7 +25,7 @@ bool lis2dh12_get_acceleration(stmdev_ctx_t* dev_ctx, lis2dh12_accel_t* accel);
 bool lis2dh12_get_temperature(stmdev_ctx_t* dev_ctx, float* temp_c);
 
 /* Configure the default interrupt settings for this application. */
-void lis2dh12_configure_interrupt(stmdev_ctx_t* dev_ctx);
+bool lis2dh12_configure_interrupt(stmdev_ctx_t* dev_ctx);
 
 #ifdef __cplusplus
 }
