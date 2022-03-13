@@ -192,6 +192,13 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef* huart) {
 
 }
 
+void EXTI9_5_IRQHandler(void) {
+  static const uint8_t imu_int1_pin = GPIO_PIN_6;
+  if (__HAL_GPIO_EXTI_GET_IT(imu_int1_pin) != 0x0) {
+    __HAL_GPIO_EXTI_CLEAR_IT(imu_int1_pin);
+  }
+}
+
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
