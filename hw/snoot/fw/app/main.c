@@ -1,5 +1,6 @@
 #include "hal_config.h"
 #include "port/lis2dh12.h"
+#include "tusb.h"
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -49,15 +50,23 @@ void print_accel_data() {
 
 int main() {
   hal_init();
+  tusb_init();
   lis2dh12_init(&hi2c1, &lis2dh12_ctx_);
   if (!lis2dh12_configure_interrupt(&lis2dh12_ctx_)) {
     printf("Failed to configure lis2dh12 interrupts");
   }
 
   // Spin
+  int count = 0;
   while (1) {
-    blink();
-    print_accel_data();
-    HAL_Delay(1000);
+    if (count % 1000 == 0) {
+      blink();
+      print_accel_data();
+    }
+
+    tud_task(); // tinyusb device task
+    // TODO: remove delay, add app time
+    HAL_Delay(1);
+    count++;
   }
 }

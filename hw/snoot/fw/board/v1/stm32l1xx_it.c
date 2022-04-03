@@ -21,6 +21,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "hal_config.h"
 #include "stm32l1xx_it.h"
+#include "tusb.h"
 
 // Forward declarations
 extern UART_HandleTypeDef huart1;
@@ -190,6 +191,21 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart) {
 
 void HAL_UART_ErrorCallback(UART_HandleTypeDef* huart) {
 
+}
+
+void USB_HP_IRQHandler(void)
+{
+  tud_int_handler(0);
+}
+
+void USB_LP_IRQHandler(void)
+{
+  tud_int_handler(0);
+}
+
+void USBWakeUp_IRQHandler(void)
+{
+  tud_int_handler(0);
 }
 
 void EXTI9_5_IRQHandler(void) {

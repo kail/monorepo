@@ -51,7 +51,8 @@ CFLAGS += -ffunction-sections
 # Colors are neat
 CFLAGS += -fdiagnostics-color=always
 # Use the C99 language standard
-CFLAGS += -std=c99
+# The tinyusb driver uses 'asm' so this can't be used.
+# CFLAGS += -std=c99
 # Assert that compilation targets a freestanding environment
 CFLAGS += -ffreestanding
 
@@ -127,6 +128,27 @@ LIB_SRC += $(wildcard $(LIS2DH12_DIR)/*.c)
 LIB_INC += $(LIS2DH12_DIR)
 VPATH += $(LIS2DH12_DIR)
 
+TINYUSB_DIR=$(VENDOR_FW)/tinyusb/src
+TINYUSB_SRC = $(wildcard $(TINYUSB_DIR)/class/cdc/*.c)
+TINYUSB_SRC += $(wildcard $(TINYUSB_DIR)/*.c)
+TINYUSB_SRC += $(wildcard $(TINYUSB_DIR)/common/*.c)
+TINYUSB_SRC += $(wildcard $(TINYUSB_DIR)/device/*.c)
+TINYUSB_SRC += $(wildcard $(TINYUSB_DIR)/portable/st/stm32_fsdev/*.c)
+# Only going to be using the CDC class
+#TINYUSB_SRC += $(wildcard $(TINYUSB_DIR)/class/cdc/*.c)
+TINYUSB_OBJ = $(patsubst $(TINYUSB_DIR)/%.c,$(OBJ_DIR)/%.o,$(TINYUSB_SRC))
+LIB_INC += $(TINYUSB_DIR)
+
+# The driver requires this to come from the compiler. It can't be in a header.
+LIB_DEFS += CFG_TUSB_MCU=OPT_MCU_STM32L1
+
+# TODO: Is there a cleaner way to do this?
+VPATH += $(TINYUSB_DIR)
+VPATH += $(TINYUSB_DIR)/common
+VPATH += $(TINYUSB_DIR)/device
+VPATH += $(TINYUSB_DIR)/portable/st/stm32_fsdev
+VPATH += $(TINYUSB_DIR)/class/cdc
+
 #
 # Application
 #
@@ -140,7 +162,7 @@ APP_DEFS =
 #
 # Final Command Flags
 #
-SRCS = $(APP_SRCS) $(BOARD_SRC) $(STM32L1_SRC) $(LIB_SRC)
+SRCS = $(APP_SRCS) $(BOARD_SRC) $(STM32L1_SRC) $(LIB_SRC) $(TINYUSB_SRC)
 INC_DIRS = $(STM32L1_INC) $(CMSIS_INC) $(APP_INC) $(BOARD_INC) $(LIB_INC)
 DEFS = $(APP_DEFS) $(ST_C_DEFS) $(LIB_DEFS)
 
@@ -155,6 +177,10 @@ CFLAGS += $(MCU) $(C_DEFS) $(C_INC) $(OPT)
 # Build Targets
 #
 .PHONY: all clean debug dirs
+
+echo:
+	@echo $(TINYUSB_SRC)
+	@echo $(OBJS)
 
 all: $(BUILD_DIR)/$(PROJECT).bin
 

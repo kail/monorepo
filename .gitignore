@@ -1,3 +1,7 @@
 .DS_Store
 __pycache__
 node_modules
+
+# Weird googletest files popping up
+hw/datasheets/imu/googletest*
+.idea/
