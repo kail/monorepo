@@ -1,4 +1,5 @@
 #include "hal_config.h"
+#include "tusb.h"
 #include <stdbool.h>
 
 #define PRINT_BUF_SIZE 512
@@ -28,6 +29,12 @@ void char_tx_complete() {
 
 /** Output a character to the debug UART port */
 void putchar_(char character) {
+  // Note: this doesn't actually work due to the size of the buffer.
+  // It was put here just for testing purposes. Realistically this will
+  // need an RTOS to periodically call flush, and block the print task.
+  // tud_cdc_n_write_char(0, character);
+  // tud_cdc_n_write_flush(0);
+
   while (write_idx_ >= PRINT_BUF_SIZE) {
     // Can't write anything, spin!
     HAL_UART_StateTypeDef state = HAL_UART_GetState(&huart1);
