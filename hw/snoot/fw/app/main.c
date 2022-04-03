@@ -1,5 +1,6 @@
 #include "hal_config.h"
 #include "port/lis2dh12.h"
+#include "time.h"
 #include "tusb.h"
 
 #include <stdbool.h>
@@ -33,7 +34,7 @@ void print_accel_data() {
   lis2dh12_accel_t accel_data;
   static float temperature_degC;
   lis2dh12_device_id_get(&lis2dh12_ctx_, &whoamI);
-  //printf("Accel whoamI: 0x%x; Should be: 0x%x\r\n", whoamI, LIS2DH12_ID);
+  printf("Accel whoamI: 0x%x; Should be: 0x%x\r\n", whoamI, LIS2DH12_ID);
 
   if (lis2dh12_get_acceleration(&lis2dh12_ctx_, &accel_data)) {
     printf("Acceleration [mg]:%4.2f\t%4.2f\t%4.2f\r\n", accel_data.x_mg, accel_data.y_mg, accel_data.z_mg);
@@ -56,17 +57,15 @@ int main() {
     printf("Failed to configure lis2dh12 interrupts");
   }
 
-  // Spin
-  int count = 0;
+  // Spin indefinitely
+  uint32_t print_time = 0;
   while (1) {
-    if (count % 1000 == 0) {
+    if (time_since_previous_ms(print_time) > 1000) {
+      print_time = time_current_ms();
       blink();
       print_accel_data();
     }
 
     tud_task(); // tinyusb device task
-    // TODO: remove delay, add app time
-    HAL_Delay(1);
-    count++;
   }
 }

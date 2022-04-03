@@ -27,13 +27,16 @@ void char_tx_complete() {
   write_idx_ = 0;
 }
 
-/** Output a character to the debug UART port */
+/** Output a character to the debug UART port and USB comport. */
 void putchar_(char character) {
-  // Note: this doesn't actually work due to the size of the buffer.
-  // It was put here just for testing purposes. Realistically this will
-  // need an RTOS to periodically call flush, and block the print task.
-  // tud_cdc_n_write_char(0, character);
-  // tud_cdc_n_write_flush(0);
+  // Note: this was put here just for testing purposes. Realistically this
+  // will need an RTOS to periodically call flush, and block the print task.
+  bool run_task = tud_cdc_n_write_char(0, character) == 0;
+  tud_cdc_n_write_flush(0);
+  if (run_task) {
+    // This really, REALLY doesn't belong here.
+    tud_task();
+  }
 
   while (write_idx_ >= PRINT_BUF_SIZE) {
     // Can't write anything, spin!
