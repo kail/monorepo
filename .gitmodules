@@ -10,3 +10,6 @@
 [submodule "vendor/fw/lis2dh12"]
 	path = vendor/fw/lis2dh12
 	url = git@github.com:STMicroelectronics/lis2dh12.git
+[submodule "vendor/fw/tinyusb"]
+	path = vendor/fw/tinyusb
+	url = git@github.com:hathach/tinyusb.git
