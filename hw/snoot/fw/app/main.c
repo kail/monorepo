@@ -1,5 +1,6 @@
 #include "hal_config.h"
 #include "port/lis2dh12.h"
+#include "port/ltr390.h"
 #include "time.h"
 #include "tusb.h"
 
@@ -49,12 +50,32 @@ void print_accel_data() {
   lis2dh12_int1_gen_source_get(&lis2dh12_ctx_, &src);
 }
 
+void print_als_data() {
+  static ltr390_reg_als_data_s als_data;
+  static ltr390_reg_part_id_u part;
+  if (!ltr390_get_part_id(&part)) {
+    printf("LTR-390 part ID failed\n");
+  } else {
+    printf("LTR-390 part ID: %d - %d\n", part.part_id, part.revision_id);
+    if (!ltr390_get_als_data(&als_data)) {
+      printf("LTR-390 get ALS data failed\n");
+      return;
+    }
+    printf("LTR-390 ALS data: %X %X %X\n", (als_data.high & 0xF), als_data.middle, als_data.low);
+  }
+}
+
 int main() {
   hal_init();
   tusb_init();
   lis2dh12_init(&hi2c1, &lis2dh12_ctx_);
   if (!lis2dh12_configure_interrupt(&lis2dh12_ctx_)) {
-    printf("Failed to configure lis2dh12 interrupts");
+    printf("Failed to configure lis2dh12 interrupts\n");
+  }
+
+  ltr390_init(&hi2c1);
+  if (ltr390_configure()) {
+    printf("LTR-390 config failed\n");
   }
 
   // Spin indefinitely
@@ -64,6 +85,7 @@ int main() {
       print_time = time_current_ms();
       blink();
       print_accel_data();
+      print_als_data();
     }
 
     tud_task(); // tinyusb device task
