@@ -47,11 +47,5 @@ bool ltr390_get_part_id(ltr390_reg_part_id_u* output) {
 }
 
 bool ltr390_get_als_data(ltr390_reg_als_data_s* output) {
-  if (!read_reg(LTR390_REG_ALS_DATA_0, &output->low, 1)) {
-    return false;
-  }
-  if (!read_reg(LTR390_REG_ALS_DATA_1, &output->middle, 1)) {
-    return false;
-  }
-  return read_reg(LTR390_REG_ALS_DATA_2, &output->high, 1);
+  return read_reg(LTR390_REG_ALS_DATA_0, (uint8_t*)output, 3);
 }

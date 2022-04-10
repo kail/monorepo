@@ -62,6 +62,9 @@ void print_als_data() {
       return;
     }
     printf("LTR-390 ALS data: %X %X %X\n", (als_data.high & 0xF), als_data.middle, als_data.low);
+
+    // TODO: Configure ALS gain (default 3) and resolution (default 18-bit).
+    printf("LTR-390 Lux: %f\n", calculate_lux(als_data.data, 3, 1.0, 1.0));
   }
 }
 
@@ -74,7 +77,7 @@ int main() {
   }
 
   ltr390_init(&hi2c1);
-  if (ltr390_configure()) {
+  if (!ltr390_configure()) {
     printf("LTR-390 config failed\n");
   }
 

@@ -16,10 +16,13 @@ typedef union {
   };
 } ltr390_reg_part_id_u;
 
-typedef struct {
-  uint8_t low;
-  uint8_t middle;
-  uint8_t high;
+typedef union {
+  struct {
+    uint8_t low;
+    uint8_t middle;
+    uint8_t high;
+  };
+  uint32_t data;
 } ltr390_reg_als_data_s;
 
 /** Initialize the LTR-390 driver. */
@@ -33,6 +36,11 @@ bool ltr390_get_part_id(ltr390_reg_part_id_u* output);
 
 /** Return the ALS data. */
 bool ltr390_get_als_data(ltr390_reg_als_data_s* output);
+
+/** Calculate the lux based on datasheet equation (pg.23). */
+static inline float calculate_lux(uint32_t als_data, uint8_t gain, float int_time, float w_fac) {
+  return (0.6 * (float)als_data) / (int_time * (float)gain) * w_fac;
+}
 
 #ifdef __cplusplus
 }
