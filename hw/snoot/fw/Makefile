@@ -129,13 +129,12 @@ LIB_INC += $(LIS2DH12_DIR)
 VPATH += $(LIS2DH12_DIR)
 
 TINYUSB_DIR=$(VENDOR_FW)/tinyusb/src
-TINYUSB_SRC = $(wildcard $(TINYUSB_DIR)/class/cdc/*.c)
 TINYUSB_SRC += $(wildcard $(TINYUSB_DIR)/*.c)
 TINYUSB_SRC += $(wildcard $(TINYUSB_DIR)/common/*.c)
 TINYUSB_SRC += $(wildcard $(TINYUSB_DIR)/device/*.c)
 TINYUSB_SRC += $(wildcard $(TINYUSB_DIR)/portable/st/stm32_fsdev/*.c)
 # Only going to be using the CDC class
-#TINYUSB_SRC += $(wildcard $(TINYUSB_DIR)/class/cdc/*.c)
+TINYUSB_SRC += $(wildcard $(TINYUSB_DIR)/class/cdc/*.c)
 TINYUSB_OBJ = $(patsubst $(TINYUSB_DIR)/%.c,$(OBJ_DIR)/%.o,$(TINYUSB_SRC))
 LIB_INC += $(TINYUSB_DIR)
 
