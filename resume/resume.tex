@@ -1,0 +1,339 @@
+%-------------------------
+% Resume in Latex
+%------------------------
+
+%---- Required Packages and Functions ----
+
+\documentclass[a4paper,11pt]{article}
+\usepackage{latexsym}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{ragged2e}
+\usepackage[empty]{fullpage}
+\usepackage{wrapfig}
+\usepackage{lipsum}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{geometry}
+\usepackage{marvosym}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{cfr-lm}
+\usepackage[T1]{fontenc}
+\usepackage{fontawesome}
+\usepackage[most]{tcolorbox}
+
+
+% Set the margins
+\geometry{left=0.85cm, top=0.8cm, right=0.85cm, bottom=0.8cm}
+
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-7pt}]
+
+
+%-------------------------
+% Custom commands
+
+\newcommand{\resumePOR}[3]{
+\vspace{0.5mm}\item[]
+    \begin{tabular*}{\textwidth}[t]{l@{\extracolsep{\fill}}r}
+    \hspace{-3mm}{#1}:\hspace{1mm} & \hspace*{0pt}\hfill{\footnotesize{ #3}} \vspace{-0.5mm}\\ \hspace{-2.9mm}#2 
+    \end{tabular*}
+    \vspace{0mm}
+}
+
+\newcommand{\resumeExp}[4]{
+\vspace{0mm}\item[]
+    \begin{tabular*}{\textwidth}[t]{l@{\extracolsep{\fill}}r}
+        \hspace{-4.4mm} \small\textbf{#1} & {\footnotesize{#3}}\vspace{-1.2mm}\\
+        \hspace{-4.3mm} \footnotesize{\text{#2}} & \footnotesize{\textit{#4}}
+    \end{tabular*}
+    \vspace{-6.1mm}
+}
+
+\newcommand{\resumeProject}[4]{
+\vspace{0mm}\item[]
+    \begin{tabular*}{\textwidth}[t]{l@{\extracolsep{\fill}}r}
+        \hspace{-4.4mm} \small\textbf{#1} & {\footnotesize{#3}}\vspace{-1mm}\\
+        \hspace{-4.3mm} \footnotesize{\text{#2}} & \footnotesize{#4}
+    \end{tabular*}
+    \vspace{-6.5mm}
+}
+
+\newcommand{\resumeEdu}[4]{
+\vspace{0mm}\item[]
+    \begin{tabular*}{\textwidth}[t]{l@{\extracolsep{\fill}}r}
+        \hspace{-4.3mm} \small\textbf{#1} & \footnotesize{#3}\vspace{-1mm} \\
+        \hspace{-4.3mm} \footnotesize{#2} & \footnotesize{#4}
+    \end{tabular*}
+    \vspace{-3.2mm}
+}
+
+\newcommand{\resumeAchieve}[3]
+{
+\hspace{-3.1mm}\textbf{ #1} & {#2} & \hspace{3mm}\footnotesize{#3}
+\vspace{0mm}\\
+}
+
+
+\renewcommand{\labelitemi}{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=*,labelsep=0mm,itemsep=-1.5mm]}
+
+\newcommand{\resumeItemListStart}{\begin{justify}\begin{itemize}[leftmargin=3ex, rightmargin=2ex, noitemsep,labelsep=1.2mm,itemsep=0mm]\small}
+
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}\vspace{-2mm}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\end{justify}\vspace{1.5mm}}
+
+\renewcommand{\arraystretch}{1}
+
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}%
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}%
+\newcolumntype{C}{>{\centering\arraybackslash}X}%
+%---- End of Packages and Functions ------
+
+
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%
+
+\newcommand{\name}{Mikhail Skobov}
+\newcommand{\phone}{952.220.6785}
+\newcommand{\emaila}{skobovm@gmail.com}
+\newcommand{\github}{kail}
+\newcommand{\website}{https://skobovm.com}
+\newcommand{\linkedin}{skobovm}
+
+
+
+\begin{document}
+\fontfamily{cmr}\selectfont
+
+
+%----------HEADING-----------------
+\begin{center}
+    \LARGE{\textbf{\name}}
+\end{center}
+\vspace{-3.5mm}
+\begin{center}
+    \small{\href{https://github.com/\github}{\faGithub \hspace{0.2mm} github.com/\github} |  \href{https://www.linkedin.com/in/\linkedin/}{\faLinkedinSquare \hspace{0.2mm} linkedin.com/in/\linkedin} | \href{mailto:\emaila}{\faSend \hspace{0.2mm} \emaila} | \faPhone \hspace{0.2mm} \phone }
+\end{center}
+\vspace{-3mm}
+
+%-----------EXPERIENCE-----------------
+\section{Work Experience}
+\resumeSubHeadingListStart
+
+\resumeExp
+{Lyft - Bikes and Scooters}
+{Staff Firmware Engineer}
+{November 2020 - Current}
+{C, C++, Bazel}
+\resumeItemListStart
+\item[$\bullet$] Engineering lead for a docking stations program; managing a small team, providing technical mentorship, and driving the firmware architecture and general technical direction for the program.
+\item[$\bullet$] Designed a networking architecture, with cross-functional partners, focusing on improving power consumption in LTE-based devices. This involved gaining a deep understanding of LTE architecture at the physical layer, optimizing the networking transport layer configuration, and working directly with the mobile provider for further tuning and diagnostics. 
+\item[$\bullet$] Core contributor to, and maintainer of, the firmware team's embedded platform, which nearly all embedded projects at Lyft are based on. This platform provides common libraries, drivers, design patterns, and a build system which greatly improves the org's productivity.
+\item[$\bullet$] Built and shipped Lyft's newest rideable, which received a \href{https://time.com/collection/best-inventions-2021/6113140/lyft-new-e-bike/b}{\textbf{TIME's Best Inventions of 2021 Award \footnotesize\faExternalLink}}. My contributions were focused on: UX (display, audio, lights, etc.), GPS, internal storage, faults, and backend communications.
+\resumeItemListEnd
+
+\resumeExp
+{Lyft - Transit}
+{Senior Software Engineer}
+{October 2018 - November 2020}
+{Go, Python, C++, Kafka}
+\resumeItemListStart
+\item[$\bullet$] Developed a high performance, highly-available multimodal routing engine. This was able to provide optimal route results for transit itineraries, but also allowed different modes such as walking, biking, and cars.
+\item[$\bullet$] Helped grow the transit team from a startup (within Lyft) to a large engineering team; lead initiatives to improve the architecture, specifically focusing on reliability, fault-tolerance, and developer tooling.
+\item[$\bullet$] Built an agent-based solution for ingesting real-time transit data, which greatly improved realtime routing results and saved Lyft \$100K annually, relative to the legacy solution.
+\resumeItemListEnd
+
+
+\resumeExp
+{Pioneer Square Labs - AdLightning}
+{Senior Software Engineer}
+{June 2017 - October 2018}
+{Python, Javascript, AdTech}
+\resumeItemListStart
+\item[$\bullet$] Designed \& built the market-leading malicious advertisement blocking platform for publishers. This protects millions of users from forced redirects and malware.
+\item[$\bullet$] Implemented a large-scale, microservice-based system for markup processing that is currently handling >40MM daily ad content reports.
+\item[$\bullet$] Implemented a locality-sensitive hashing algorithm for ad content similarity detection, which greatly helps reduce costs by omitting creatives which have already been processed.
+\item[$\bullet$] Drove the design and architecture on our programmatic video advertisement analysis tool.
+\item[$\bullet$] Contributed to the UI and back-end service for the main publisher interface.
+\resumeItemListEnd
+
+
+\resumeExp
+{Microsoft – Interact Next}
+{SDE II}
+{Feb 2016 - June 2017}
+{C++, C\#, Interaction Design, Accessibility}
+\resumeItemListStart
+\item[$\bullet$] Developed numerous features for the user-facing component of the Surface Dial.
+\item[$\bullet$] Created compelling prototypes for ambient, multi-user, and/or multi-device interactions and worked with partner teams to incorporate these experiences into their products.
+\item[$\bullet$] Designed and fabricated hardware development boards for evaluating user interactions with physical concept devices.
+\item[$\bullet$] Built concepts for wearables, and accessories to the Windows ecosystem.
+\resumeItemListEnd
+
+
+\resumeExp
+{Microsoft – LLILUM}
+{SDE II}
+{June 2015 - Feb 2016}
+{C, C++, Assembly, LLVM}
+\resumeItemListStart
+\item[$\bullet$] Implemented drivers for low-level communication protocols (SPI, I2C, Serial, etc.).
+\item[$\bullet$] Designed the middle-tier interface between C code and the managed-language interface created by LLVM.
+\item[$\bullet$] Created and maintained the Visual Studio-based SDK for the platform, and was responsible for overall user experience.
+\item[$\bullet$] Ported the light-weight IP stack and numerous other libraries for use from C\# on an embedded platform.
+\resumeItemListEnd
+
+
+\resumeExp
+{Microsoft – Web Platform}
+{SDE}
+{August 2014 - June 2015}
+{C++, Win32, UWP}
+\resumeItemListStart
+\item[$\bullet$] Developed and maintained features that involved mouse, touch, or keyboard input.
+\item[$\bullet$] Built the infrastructure/core for the native date-time input control (<input type=”date”>).
+\item[$\bullet$] Implemented Drag and Drop using new WinRT APIs, and developed cross-WWA drag support.
+\item[$\bullet$] Contributed to portions of the Javascript runtime and tested against W3C specifications.
+\item[$\bullet$] Shipped the first version of the Edge browser on Windows 10.
+\resumeItemListEnd
+
+\pagebreak
+
+\resumeExp
+{Microsoft – SQL, Azure}
+{Intern}
+{Summer 2022, 2023}
+{C\#, SQL, Azure}
+\resumeItemListStart
+\item[$\bullet$] Developed a data-generation tool for testing the MDS feature of SQL.
+\item[$\bullet$] Created test plans and wrote automated tests as part of complete feature ownership.
+\item[$\bullet$] Worked on debugging stored procedures through SQL Server Management Studio.
+\item[$\bullet$] Created a secure phone application for notifying developers of build and live errors.
+\resumeItemListEnd
+
+
+\resumeExp
+{Maverick Software – Thomson Reuters}
+{SDET Consultant}
+{May 2010 - May 2013}
+{C\#, Java, Javascript, Accesibility}
+\resumeItemListStart
+\item[$\bullet$] Developed web applications using C\# and ASP.NET, and created Selenium functional tests.
+\item[$\bullet$] Worked on 508 Compliance trackers to provide accessibility features for the visually-impaired.
+\item[$\bullet$] Rewrote components of a web application from ASP to ASP.NET.
+\item[$\bullet$] Worked with large quantities of data for document retrieval/presentation services.
+\resumeItemListEnd
+
+\resumeSubHeadingListEnd
+\vspace{-5.5mm}
+
+%-----------EDUCATION-----------------
+
+\vspace{-2.5mm}
+\section{Education}
+\resumeSubHeadingListStart
+
+\resumeProject
+{University of Washington}
+{M.S. Computer Science} %Project Name, Location Name
+{March 2017 - May 2020} %Event Dates
+{} 
+\resumeItemListStart
+\item[$\bullet$] Programming Systems: theory of P.S. for modern languages and architectures
+\item[$\bullet$] Machine Learning: theory and impl. of decision trees, neural nets, SVM, clustering, and others
+\item[$\bullet$] Entrepreneurship: built a tech startup from the ground up; pitched to VCs in the industry
+\item[$\bullet$] Natural language processing, cryptography, advanced algorithms, and others. 
+\resumeItemListEnd
+
+\resumeProject
+{University of Washington}
+{Certificate: Embedded \& Real-Time Systems Programming} %Project Name, Location Name
+{Oct. 2016 - May 2017} %Event Dates
+{} 
+\resumeItemListStart
+\resumeItemListEnd
+\vspace{-3.2mm}
+
+\resumeProject
+{University of Wisconsin - Madison}
+{B.S. Computer Science} %Project Name, Location Name
+{Sept. 2010 - May 2014} %Event Dates
+{} 
+\resumeItemListStart
+\item[$\bullet$] Computer Engineering: Embedded Systems Emphasis
+\resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+\vspace{-6.2mm}
+
+%-----------PROJECTS-----------------
+\section{Projects}
+\resumeSubHeadingListStart
+
+\resumeProject
+{Personal Monorepo \raisebox{-0.3mm}{\href{https://github.com/kail/monorepo}{\footnotesize\faExternalLink}}}{}{}{}
+\vspace{-3.5mm}
+\resumeItemListStart
+\item[$\bullet$] Single repo containing all of the things I enjoy dabbling with
+\item[$\bullet$] Terraform-based infra configuration, with simple, containerized microservices; optimized for simplicity
+\item[$\bullet$] Firmware source and hardware design files for embedded projects
+
+\resumeItemListEnd
+\resumeSubHeadingListEnd
+
+\vspace{-5.5mm}
+
+% This section is currently unused
+\iffalse
+
+\section{Technical Skills}
+\vspace{0.2mm}
+
+\small{\begin{tabular*}{\textwidth}[t]{p{0.5\textwidth} p{0.5\textwidth}}
+
+\hspace{-3.1mm}{\textbf{ Programming languages:} C++, C, Python, C\#, Java} & {\textbf{Web Technologies:} HTML, CSS, Django, Flask, JavaScript} \\  
+\hspace{-3.1mm}{\textbf{ ML/AI:} Pytorch, Numpy, Pandas, Matplotlib} & {\textbf{Miscellaneous:} MySQL, AWS, Git, Shell, Latex, Unity}
+\end{tabular*}}
+
+\vspace{-2.5mm}
+\fi
+
+
+\section{Patents}
+\vspace{0.2mm}
+
+\small{\begin{tabular*}{\textwidth}[t]{p{\textwidth}}
+\textbf{ U.S. Patent 16/805,135: }{Transition of navigation modes for multi-modal transportation}\\
+\textbf{ U.S. Patent 16/836,141: }{Multi-modal route generation system}\\
+\textbf{ U.S. Patent 15/610,432: }{System and method for directed analysis of content using artifical intelligence for storage and recall}\\
+\textbf{ U.S. Patent 15/397,238: }{Disambiguation of target devices using ambient signal data}\\
+\end{tabular*}}
+
+% This section is currently unused
+\iffalse
+\section{Achievements}
+\vspace{0.2mm}
+\small{\begin{tabular*}{\textwidth}[t]{p{0.22\textwidth} p{0.68\textwidth}@{\extracolsep{\fill}}r}
+
+\resumeAchieve{Achivement 1}{Description}{2022}
+\resumeAchieve{Achivement 2}{Description}{2022}
+
+\end{tabular*}}
+
+\vspace{-2.5mm}
+\fi
+
+%-------------------------------------------
+\end{document}
