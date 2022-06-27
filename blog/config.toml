@@ -13,15 +13,23 @@ name = "Home"
 url = "/"
 weight = 1
 
-[[menu.main]]
-name = "Writings"
-url = "/posts"
-weight = 2
+#[[menu.main]]
+#name = "Writings"
+#url = "/posts"
+#weight = 2
 
 [[menu.main]]
 name = "About"
 url = "/about"
 weight = 3
+
+[[menu.main]]
+name = "Resume"
+url = "/resume"
+weight = 4
+
+[markup.goldmark.renderer]
+unsafe= true
 
 [params]
   colortheme = "light" # dark, light, white, or classic
@@ -30,7 +38,8 @@ weight = 3
 
   # Home page settings
   description = "My personal dumping ground of ideas, projects and utilities that -- if not useful to anyone else -- serve as a personal refresher of things I may have forgotten."
-  mainSection = "posts" # your main section
+  # TODO: change this back to posts when there are any
+  mainSection = "about" # your main section
   showAllPostsOnHomePage = false # default
   postsOnHomePage = 20 # this option will be ignored if showAllPostsOnHomePage is set to true
   tagsOverview = false # show tags overview by default.
@@ -55,9 +64,10 @@ weight = 3
   [[params.social]]
     name = "email"
     link = "skobovm@gmail.com"
-  [[params.social]]
-    name = "rss"
-    link = "https://skobovm.com/index.xml"
+  # TODO: maybe enable RSS someday
+  # [[params.social]]
+  #   name = "rss"
+  #   link = "https://skobovm.com/index.xml"
 
 [deployment]
   [[deployment.targets]]
